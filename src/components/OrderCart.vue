@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import TitleOrder from './TitleOrder';
-import NearestDelivery from './NearestDelivery';
+import TitleOrder from '@/components/TitleOrder';
+import NearestDelivery from '@/components/NearestDelivery';
 
 export default {
   components: {

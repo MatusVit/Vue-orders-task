@@ -17,10 +17,11 @@ export default {
   components: { OrderCart },
 };
 </script>
+
 <style lang="scss" scoped>
 .order-list__title {
+  margin: 12px 6px;
   // font-family: 'SF Pro Rounded';
-  font-style: normal;
   font-weight: bold;
   font-size: 22px;
   line-height: 26px;
