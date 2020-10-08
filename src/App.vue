@@ -28,8 +28,9 @@ export default {
 // todo ??? @import css framework
 
 .page-conteiner {
-  width: 415-36px;
-  height: 677-36px;
+  box-sizing: border-box;
+  width: 415px;
+  height: 677px;
   padding: 18px;
   background: #ffffff;
 }
