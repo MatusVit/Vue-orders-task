@@ -12,9 +12,41 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import OrderCart from '../components/OrderCart';
+
 export default {
   components: { OrderCart },
+
+  computed: {
+    ...mapGetters(['getIsOrdersLoaded', 'getOrdersArray']),
+  },
+
+  // async mounted() {
+  //   // this.setLoading(true);
+  //   try {
+  //     await this.prepareStart();
+  //     const fastStep = this.getFastIndexOfIsNotLearnedWordObject();
+  //     if (fastStep) this.step = fastStep;
+  //     this.isVisibleContent = true;
+  //     this.autoAudioPlayWord();
+  //   } catch (error) {
+  //     this.$router.push('/home');
+  //   } finally {
+  //     this.setLoading(false);
+  //   }
+  // },
+
+  methods: {
+    ...mapActions(['updateOrders']),
+    // async prepareStart() {
+    //   if (!this.getCurrentLearnStateObject.isArraysLoaded) {
+    //     await this.getLearnArraysFromServer();
+    //   }
+    //   this.wordsArray = this.getCurrentArray;
+    //   this.audio = new AudioControl();
+    // },
+  },
 };
 </script>
 
