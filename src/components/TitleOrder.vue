@@ -3,8 +3,8 @@
     <div class="title-order__conteiner">
       <p class="title-order__days">6 Дней</p>
       <div class="title-order__ration">
-        <p class="title-order__ration__name">PRO рацион</p>
-        <p class="title-order__ration__calories">2000 кКал</p>
+        <p class="title-order__ration__name">{{ cardObject.packageName }}</p>
+        <p class="title-order__ration__calories">{{ cardObject.packageCalories }}</p>
       </div>
     </div>
 
@@ -13,10 +13,18 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import ProgressBar from './ProgressBar';
 export default {
   components: {
     ProgressBar,
+  },
+  props: ['cardID'],
+  computed: {
+    ...mapGetters(['getCardObjectById']),
+    cardObject() {
+      return this.getCardObjectById(this.cardID);
+    },
   },
 };
 </script>

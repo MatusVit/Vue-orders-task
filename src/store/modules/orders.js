@@ -2,22 +2,27 @@ export default {
   state: {
     isOrdersLoaded: false,
     ordersArray: [],
+    currentOrderId: 1,
   },
   mutations: {
     loadOrders(state, ordersArray) {
       if (Array.isArray(ordersArray)) {
         state.ordersArray = ordersArray;
-        state.isOrdersLoaded(true);
+        state.isOrdersLoaded = true;
       }
+    },
+    setCurrentOrderId(state, id) {
+      state.currentOrderId = id;
     },
   },
   actions: {
-    updateOrders({ commit }, ordersJSON) {
+    async updateOrders({ commit }) {
       try {
-        const ordersArray = JSON.parse(ordersJSON);
+        const resp = await fetch('/orders.json');
+        const ordersArray = await resp.json();
         commit('loadOrders', ordersArray);
       } catch (error) {
-        console.log(error.message);
+        console.log('ERROR! ', error.message);
       }
     },
   },
@@ -30,6 +35,15 @@ export default {
         return state.ordersArray;
       }
       return null;
+    },
+    getCardObjectById(state) {
+      return (id) => state.ordersArray.find((object) => object.id === id);
+    },
+    getCurrentOrderId(state) {
+      return state.currentOrderId;
+    },
+    getCurrentCardObject(state, getters) {
+      return getters.getCardObjectById(state.currentOrderId);
     },
   },
 };

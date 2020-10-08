@@ -3,7 +3,7 @@
     <div class="order__title ">
       <button class="button-link base-color-text" @click="$router.push('/')">Назад</button>
     </div>
-    <TitleOrder />
+    <TitleOrder :cardID="getCurrentOrderId" />
     <DeliveryList />
     <div class="button-group">
       <button class="button__icon">
@@ -21,11 +21,15 @@
 <script>
 import TitleOrder from '@/components/TitleOrder';
 import DeliveryList from '@/components/DeliveryList';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
     TitleOrder,
     DeliveryList,
+  },
+  computed: {
+    ...mapGetters(['getCurrentOrderId']),
   },
 };
 </script>

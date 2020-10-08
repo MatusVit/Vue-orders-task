@@ -3,11 +3,10 @@
     <h3 class="order-list__title">
       Мои заказы
       <span class="order-list__title__count">
-        2
+        {{ countOrdes }}
       </span>
     </h3>
-    <OrderCart />
-    <OrderCart />
+    <OrderCart v-for="card in getOrdersArray" :key="card.id" :cardID="card.id" />
   </div>
 </template>
 
@@ -17,35 +16,23 @@ import OrderCart from '../components/OrderCart';
 
 export default {
   components: { OrderCart },
-
   computed: {
     ...mapGetters(['getIsOrdersLoaded', 'getOrdersArray']),
+    countOrdes() {
+      return this.getOrdersArray ? this.getOrdersArray.length : '';
+    },
   },
 
-  // async mounted() {
-  //   // this.setLoading(true);
-  //   try {
-  //     await this.prepareStart();
-  //     const fastStep = this.getFastIndexOfIsNotLearnedWordObject();
-  //     if (fastStep) this.step = fastStep;
-  //     this.isVisibleContent = true;
-  //     this.autoAudioPlayWord();
-  //   } catch (error) {
-  //     this.$router.push('/home');
-  //   } finally {
-  //     this.setLoading(false);
-  //   }
-  // },
+  async mounted() {
+    try {
+      await this.updateOrders();
+    } catch (error) {
+      console.log(error.massege);
+    }
+  },
 
   methods: {
     ...mapActions(['updateOrders']),
-    // async prepareStart() {
-    //   if (!this.getCurrentLearnStateObject.isArraysLoaded) {
-    //     await this.getLearnArraysFromServer();
-    //   }
-    //   this.wordsArray = this.getCurrentArray;
-    //   this.audio = new AudioControl();
-    // },
   },
 };
 </script>
