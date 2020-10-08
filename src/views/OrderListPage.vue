@@ -1,6 +1,9 @@
 <template>
   <div class="page-conteiner">
-    <h3 class="order-list__title">Мои заказы <span class="order-list__title__count">2</span></h3>
+    <h3 class="order-list__title">
+      Мои заказы
+      <span class="order-list__title__count">2</span>
+    </h3>
     <OrderCart />
   </div>
 </template>
