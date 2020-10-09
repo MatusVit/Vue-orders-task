@@ -6,11 +6,11 @@
     <TitleOrder :cardID="getCurrentOrderId" />
     <DeliveryList />
     <div class="button-group">
-      <button class="button__icon">
+      <button class="button__icon" @click="handleDuplicateOrder">
         <p>Дублировать заказ</p>
         <img src="@/assets/icon-doubling.svg" />
       </button>
-      <button>
+      <button @click="handleCancelOrder">
         <p>Отменить заказ</p>
         <img class="button__icon" src="@/assets/icon-trash.svg" />
       </button>
@@ -21,7 +21,7 @@
 <script>
 import TitleOrder from '@/components/TitleOrder';
 import DeliveryList from '@/components/DeliveryList';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -30,6 +30,18 @@ export default {
   },
   computed: {
     ...mapGetters(['getCurrentOrderId']),
+  },
+
+  methods: {
+    ...mapActions(['duplicateOrder', 'cancelOrder']),
+    handleDuplicateOrder() {
+      this.duplicateOrder(this.getCurrentOrderId);
+      this.$router.push('/');
+    },
+    handleCancelOrder() {
+      this.cancelOrder(this.getCurrentOrderId);
+      this.$router.push('/');
+    },
   },
 };
 </script>

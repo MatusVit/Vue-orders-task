@@ -27,6 +27,15 @@ export default {
         console.log('ERROR! ', error.message);
       }
     },
+    duplicateOrder(context, idOrder) {
+      //todo
+      console.log('Order Duplicate id', idOrder);
+      // const duplicate =  createNewOrderObjectFrom(idOrder);
+    },
+    cancelOrder(context, idOrder) {
+      //todo indexOf splice
+      console.log('Order canceled id', idOrder);
+    },
   },
   getters: {
     getIsOrdersLoaded(state) {

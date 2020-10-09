@@ -24,10 +24,12 @@ export default {
   },
 
   async mounted() {
-    try {
-      await this.updateOrders();
-    } catch (error) {
-      console.log(error.massege);
+    if (!this.getIsOrdersLoaded) {
+      try {
+        await this.updateOrders();
+      } catch (error) {
+        console.log(error.massege);
+      }
     }
   },
 
