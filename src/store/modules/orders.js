@@ -1,3 +1,5 @@
+import { getDateFromDeliveryObjectUtil } from '@/utils/storeUtils';
+
 export default {
   state: {
     isOrdersLoaded: false,
@@ -44,6 +46,32 @@ export default {
     },
     getCurrentCardObject(state, getters) {
       return getters.getCardObjectById(state.currentOrderId);
+    },
+    getDeliveryArrayByOrderId(state, getters) {
+      return (id) => getters.getCardObjectById(id).deliveries;
+    },
+    getFirstDeliveryByOrderId(state, getters) {
+      return (id) => {
+        const deliveryArray = getters.getDeliveryArrayByOrderId(id);
+        const firstDelivery = deliveryArray.reduce((first, object) => {
+          if (getDateFromDeliveryObjectUtil(object) < getDateFromDeliveryObjectUtil(first))
+            return object;
+          return first;
+        });
+        return firstDelivery;
+      };
+    },
+
+    getLastDeliveryByOrderId(state, getters) {
+      return (id) => {
+        const deliveryArray = getters.getDeliveryArrayByOrderId(id);
+        const firstDelivery = deliveryArray.reduce((first, object) => {
+          if (getDateFromDeliveryObjectUtil(object) > getDateFromDeliveryObjectUtil(first))
+            return object;
+          return first;
+        });
+        return firstDelivery;
+      };
     },
   },
 };

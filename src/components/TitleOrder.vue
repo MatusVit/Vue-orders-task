@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <ProgressBar />
+    <ProgressBar :cardID="cardID" />
   </div>
 </template>
 
