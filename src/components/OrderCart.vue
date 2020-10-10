@@ -8,7 +8,7 @@
 <script>
 import TitleOrder from '@/components/TitleOrder';
 import NearestDelivery from '@/components/NearestDelivery';
-import { mapMutations } from 'vuex';
+import {mapMutations} from 'vuex';
 
 export default {
   props: ['cardID'],
@@ -29,7 +29,7 @@ export default {
 <style lang="scss" scoped>
 .order-cart {
   width: 379px;
-  height: 247px;
+  // height: 247px;
   margin-bottom: 13px;
   padding: 25px 18px 18px;
   display: flex;

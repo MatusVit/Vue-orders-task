@@ -25,12 +25,11 @@ export default {
 </script>
 
 <style lang="scss">
-// todo ??? @import css framework
-
 .page-conteiner {
   box-sizing: border-box;
   width: 415px;
   height: 677px;
+  overflow: auto;
   padding: 18px;
   background: #ffffff;
 }

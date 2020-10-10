@@ -1,10 +1,11 @@
-import { getDateFromDeliveryObjectUtil } from '@/utils/storeUtils';
+import {getDateFromDeliveryObjectUtil} from '@/utils/storeUtils';
 
 export default {
   state: {
     isOrdersLoaded: false,
     ordersArray: [],
     currentOrderId: 1,
+    dateNow: Date.now(),
   },
   mutations: {
     loadOrders(state, ordersArray) {
@@ -18,7 +19,7 @@ export default {
     },
   },
   actions: {
-    async updateOrders({ commit }) {
+    async updateOrders({commit}) {
       try {
         const resp = await fetch('/orders.json');
         const ordersArray = await resp.json();
@@ -38,6 +39,12 @@ export default {
     },
   },
   getters: {
+    getDateNow(state) {
+      return state.dateNow;
+    },
+    getCurrentOrderId(state) {
+      return state.currentOrderId;
+    },
     getIsOrdersLoaded(state) {
       return state.isOrdersLoaded;
     },
@@ -47,21 +54,34 @@ export default {
       }
       return null;
     },
+
     getCardObjectById(state) {
-      return (id) => state.ordersArray.find((object) => object.id === id);
+      return id => state.ordersArray.find(object => object.id === id);
     },
-    getCurrentOrderId(state) {
-      return state.currentOrderId;
-    },
+
     getCurrentCardObject(state, getters) {
       return getters.getCardObjectById(state.currentOrderId);
     },
+
     getDeliveryArrayByOrderId(state, getters) {
-      return (id) => getters.getCardObjectById(id).deliveries;
+      return id => getters.getCardObjectById(id).deliveries;
     },
+
+    getUndeliveredArrayByOrderId(state, getters) {
+      return id => {
+        const array = getters.getDeliveryArrayByOrderId(id);
+        if (array.length === 0) return [];
+        const undeliveredArray = array.filter(
+          deliveryObject => state.dateNow < getDateFromDeliveryObjectUtil(deliveryObject)
+        );
+        return undeliveredArray;
+      };
+    },
+
     getFirstDeliveryByOrderId(state, getters) {
-      return (id) => {
+      return id => {
         const deliveryArray = getters.getDeliveryArrayByOrderId(id);
+        if (deliveryArray && deliveryArray.length === 0) return null;
         const firstDelivery = deliveryArray.reduce((first, object) => {
           if (getDateFromDeliveryObjectUtil(object) < getDateFromDeliveryObjectUtil(first))
             return object;
@@ -72,14 +92,29 @@ export default {
     },
 
     getLastDeliveryByOrderId(state, getters) {
-      return (id) => {
+      return id => {
         const deliveryArray = getters.getDeliveryArrayByOrderId(id);
+        if (deliveryArray && deliveryArray.length === 0) return null;
         const firstDelivery = deliveryArray.reduce((first, object) => {
           if (getDateFromDeliveryObjectUtil(object) > getDateFromDeliveryObjectUtil(first))
             return object;
           return first;
         });
         return firstDelivery;
+      };
+    },
+
+    getNearestDelivery(state, getters) {
+      return id => {
+        const deliveryArray = getters.getUndeliveredArrayByOrderId(id);
+        if (deliveryArray && deliveryArray.length === 0) return null;
+        const nearestDelivery = deliveryArray.reduce((nearest, object) => {
+          const differenceNearest = getDateFromDeliveryObjectUtil(nearest) - state.dateNow;
+          const differenceObject = getDateFromDeliveryObjectUtil(object) - state.dateNow;
+          if (differenceObject < differenceNearest) return object;
+          return nearest;
+        });
+        return nearestDelivery;
       };
     },
   },

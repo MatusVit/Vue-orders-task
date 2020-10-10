@@ -1,10 +1,12 @@
 <template>
   <div class="title-order">
     <div class="title-order__conteiner">
-      <p class="title-order__days">6 Дней</p>
+      <p class="title-order__days">{{ amountDeliveries }} Дней</p>
       <div class="title-order__ration">
         <p class="title-order__ration__name">{{ cardObject.packageName }}</p>
-        <p class="title-order__ration__calories">{{ cardObject.packageCalories }}</p>
+        <p class="title-order__ration__calories">
+          {{ cardObject.packageCalories }}
+        </p>
       </div>
     </div>
 
@@ -24,6 +26,9 @@ export default {
     ...mapGetters(['getCardObjectById']),
     cardObject() {
       return this.getCardObjectById(this.cardID);
+    },
+    amountDeliveries() {
+      return this.cardObject.deliveries.length;
     },
   },
 };
