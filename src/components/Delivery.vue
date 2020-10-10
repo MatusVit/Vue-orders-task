@@ -2,16 +2,45 @@
   <div class="delivery-item">
     <div class="delivery-item__box-left">
       <img src="@/assets/icon-bag.svg" />
-      <p class="delivery__date">14 мая, среда</p>
+      <p class="delivery__date">{{ deliveryDate | formatDate }}</p>
     </div>
     <div class="delivery-item__box-right">
-      <p class="delivery__time">8:00-10:00</p>
+      <p class="delivery__time">{{ delivery.interval }}</p>
       <button class="button-arrow">
         <img src="@/assets/icon-arrow-left.svg" />
       </button>
     </div>
   </div>
 </template>
+
+<script>
+import {isDate} from '@/utils/componentUtils';
+
+export default {
+  props: ['delivery'],
+  computed: {
+    deliveryDate() {
+      if (!this.delivery) return '-';
+      return new Date(this.delivery.date);
+    },
+  },
+  filters: {
+    formatDate: date => {
+      if (isDate(date)) {
+        const dayMonth = new Intl.DateTimeFormat('ru', {
+          day: 'numeric',
+          month: 'long',
+        }).format(date);
+        const weekDay = new Intl.DateTimeFormat('ru', {
+          weekday: 'long',
+        }).format(date);
+        return `${dayMonth}, ${weekDay}`;
+      }
+      return date;
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';

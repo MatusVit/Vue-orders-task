@@ -20,7 +20,6 @@ export default {
   computed: {
     ...mapGetters(['getDeliveryArrayByCurrentOrderId']),
     deliveryArray() {
-      console.log('deliveryArray = ', this.getDeliveryArrayByCurrentOrderId);
       return this.getDeliveryArrayByCurrentOrderId;
     },
     isDeliveries() {
