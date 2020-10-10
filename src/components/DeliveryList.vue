@@ -1,20 +1,31 @@
 <template>
   <div class="delivery-list">
-    <div class="delivery-list__title">Доставки</div>
-
-    <div class="delivery-list__conteiner">
-      <Delivery />
-      <Delivery />
+    <div v-if="isDeliveries" class="delivery-list__has">
+      <div class="delivery-list__title">Доставки</div>
+      <div class="delivery-list__conteiner">
+        <Delivery v-for="delivery in deliveryArray" :key="delivery.id" :delivery="delivery" />
+      </div>
     </div>
+    <div v-else class="delivery-list__has-not">Доставок нет</div>
   </div>
 </template>
 
 <script>
 import Delivery from '@/components/Delivery';
-
+import {mapGetters} from 'vuex';
 export default {
   components: {
     Delivery,
+  },
+  computed: {
+    ...mapGetters(['getDeliveryArrayByCurrentOrderId']),
+    deliveryArray() {
+      console.log('deliveryArray = ', this.getDeliveryArrayByCurrentOrderId);
+      return this.getDeliveryArrayByCurrentOrderId;
+    },
+    isDeliveries() {
+      return this.deliveryArray && this.deliveryArray.length !== 0;
+    },
   },
 };
 </script>
@@ -52,5 +63,9 @@ export default {
       outline: 0;
     }
   }
+}
+.delivery-list__has-not {
+  margin: 20px;
+  text-align: center;
 }
 </style>

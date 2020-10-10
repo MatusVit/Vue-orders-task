@@ -11,11 +11,11 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import {mapGetters, mapActions} from 'vuex';
 import OrderCart from '../components/OrderCart';
 
 export default {
-  components: { OrderCart },
+  components: {OrderCart},
   computed: {
     ...mapGetters(['getIsOrdersLoaded', 'getOrdersArray']),
     countOrdes() {

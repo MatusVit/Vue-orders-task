@@ -67,6 +67,10 @@ export default {
       return id => getters.getCardObjectById(id).deliveries;
     },
 
+    getDeliveryArrayByCurrentOrderId(state, getters) {
+      return getters.getCardObjectById(state.currentOrderId).deliveries;
+    },
+
     getUndeliveredArrayByOrderId(state, getters) {
       return id => {
         const array = getters.getDeliveryArrayByOrderId(id);
