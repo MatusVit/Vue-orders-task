@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import {getDateFromDeliveryObjectUtil} from '@/utils/storeUtils';
+import {getDateFromDeliveryObjectUtil, getMaxIdFromArray} from '@/utils/storeUtils';
 
 export default {
   state: {
@@ -23,6 +23,11 @@ export default {
         Vue.set(state.ordersArray[index], 'isCancel', true);
       }
     },
+    addNewOrder(state, newOrder) {
+      if (state.isOrdersLoaded) {
+        state.ordersArray.push(newOrder);
+      }
+    },
   },
   actions: {
     async updateOrders({commit}) {
@@ -34,17 +39,24 @@ export default {
         console.log('ERROR! ', error.message);
       }
     },
-    duplicateOrder(context, idOrder) {
+
+    duplicateOrder({commit, getters}, idOrder) {
       //todo
-      console.log('Order Duplicate id', idOrder);
-      // const duplicate =  createNewOrderObjectFrom(idOrder);
+      const cardObject = getters.getCardObjectById(idOrder);
+      const {deliveries} = cardObject;
+      let maxCardID = getters.getMaxCardID;
+      let maxDeliveryID = getters.maxDeliveryID;
+      const newDeliveries = deliveries.map(object => ({...object, id: ++maxDeliveryID}));
+      const duplicate = {...cardObject, deliveries: newDeliveries, id: ++maxCardID};
+      commit('addNewOrder', duplicate);
     },
+
     cancelOrder({commit, state}, idOrder) {
-      //todo indexOf splice
       const index = state.ordersArray.findIndex(object => object.id === idOrder);
       commit('setCancelOrder', index);
     },
   },
+
   getters: {
     getDateNow(state) {
       return state.dateNow;
@@ -130,6 +142,16 @@ export default {
         });
         return nearestDelivery;
       };
+    },
+    getMaxCardID(state) {
+      return getMaxIdFromArray(state.ordersArray);
+    },
+    maxDeliveryID(state) {
+      return state.ordersArray.reduce((maxId, orderObject) => {
+        const maxIdFromDeliveries = getMaxIdFromArray(orderObject.deliveries);
+        if (maxIdFromDeliveries > maxId) return maxIdFromDeliveries;
+        return maxId;
+      }, 0);
     },
   },
 };
