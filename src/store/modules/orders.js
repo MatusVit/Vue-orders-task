@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import {getDateFromDeliveryObjectUtil} from '@/utils/storeUtils';
 
 export default {
@@ -17,6 +18,11 @@ export default {
     setCurrentOrderId(state, id) {
       state.currentOrderId = id;
     },
+    setCancelOrder(state, index) {
+      if (state.isOrdersLoaded) {
+        Vue.set(state.ordersArray[index], 'isCancel', true);
+      }
+    },
   },
   actions: {
     async updateOrders({commit}) {
@@ -33,9 +39,10 @@ export default {
       console.log('Order Duplicate id', idOrder);
       // const duplicate =  createNewOrderObjectFrom(idOrder);
     },
-    cancelOrder(context, idOrder) {
+    cancelOrder({commit, state}, idOrder) {
       //todo indexOf splice
-      console.log('Order canceled id', idOrder);
+      const index = state.ordersArray.findIndex(object => object.id === idOrder);
+      commit('setCancelOrder', index);
     },
   },
   getters: {
@@ -50,7 +57,10 @@ export default {
     },
     getOrdersArray(state) {
       if (state.isOrdersLoaded) {
-        return state.ordersArray;
+        const arrayWithoutCancelOrders = state.ordersArray.filter(objectOrder => {
+          return !objectOrder.isCancel;
+        });
+        return arrayWithoutCancelOrders;
       }
       return null;
     },
