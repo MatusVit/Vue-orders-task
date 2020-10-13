@@ -125,6 +125,7 @@ export default {
 
 .nearest-delivery__text-block__subtitle__time {
   margin-bottom: 4px;
+  font-family: SF Pro Text;
   font-weight: 600;
   font-size: 12px;
   line-height: 13px;
@@ -132,6 +133,7 @@ export default {
 }
 
 .nearest-delivery__text-block__subtitle__place {
+  font-family: SF Pro Text;
   font-size: 12px;
   line-height: 13px;
   color: $text-gray;

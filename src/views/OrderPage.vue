@@ -94,6 +94,11 @@ export default {
     color: $text-dark-gray;
 
     transition: all 0.3s;
+
+    & p {
+      font-family: SF Pro Text;
+    }
+
     &:hover {
       color: $base-color;
     }

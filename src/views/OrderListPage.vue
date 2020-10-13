@@ -42,7 +42,7 @@ export default {
 <style lang="scss" scoped>
 .order-list__title {
   margin: 12px 6px;
-  // font-family: 'SF Pro Rounded';
+  font-family: 'SF Pro Rounded';
   font-weight: bold;
   font-size: 22px;
   line-height: 26px;
@@ -50,7 +50,7 @@ export default {
 }
 
 .order-list__title__count {
-  // font-family: 'SF Pro Display';
+  font-family: 'SF Pro Display';
   font-style: normal;
   font-weight: normal;
   font-size: 20px;
